@@ -6,17 +6,6 @@
         android:id="@+id/banner_vp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
-    <LinearLayout
-        android:id="@+id/circleIndicator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:padding="10dp"
-        android:visibility="visible" />
     <TextView
         android:id="@+id/bannerTitle"
         android:layout_width="match_parent"
@@ -31,4 +20,14 @@
         android:singleLine="true"
         android:textColor="#ffffff"
         android:visibility="gone" />
+    <LinearLayout
+        android:id="@+id/circleIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:padding="10dp"
+        android:visibility="visible" />
 </RelativeLayout>
