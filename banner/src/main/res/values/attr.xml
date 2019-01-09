@@ -9,5 +9,8 @@
         <attr name="title_textcolor" format="color" />
         <attr name="title_textsize" format="dimension" />
         <attr name="title_height" format="dimension" />
+
+        <attr name="indicator_selected" format="color" />
+        <attr name="indicator_unselected" format="color" />
     </declare-styleable>
 </resources>

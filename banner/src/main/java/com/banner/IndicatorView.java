@@ -9,7 +9,7 @@ import android.view.View;
 
 public class IndicatorView extends View {
     private int color = Color.RED;
-    private int width = 30;
+//    private int width = 30;
     public IndicatorView(Context context) {
         this(context,null);
     }

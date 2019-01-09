@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Bundle;
+import android.graphics.Color;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -17,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 
 public class BannerView extends RelativeLayout implements ViewPager.OnPageChangeListener ,NotifyChanged{
@@ -34,6 +33,7 @@ public class BannerView extends RelativeLayout implements ViewPager.OnPageChange
     private Activity mActivity;
 
     private LinearLayout circleIndicator;
+    private int mIndicatorUnselected,mIndicatorSelected;
 
     private TextView bannerTitle;
     private int titleHeight;
@@ -41,11 +41,8 @@ public class BannerView extends RelativeLayout implements ViewPager.OnPageChange
     private int titleTextColor;
     private int titleTextSize;
 
-
     private List<String> titleList;
     private int count = 0;
-
-
     public BannerView(Context context) {
         this(context,null);
     }
@@ -85,6 +82,10 @@ public class BannerView extends RelativeLayout implements ViewPager.OnPageChange
         titleHeight = typedArray.getDimensionPixelSize(R.styleable.Banner_title_height, -1);
         titleTextColor = typedArray.getColor(R.styleable.Banner_title_textcolor, -1);
         titleTextSize = typedArray.getDimensionPixelSize(R.styleable.Banner_title_textsize,-1);
+
+
+        mIndicatorUnselected = typedArray.getColor(R.styleable.Banner_indicator_unselected,Color.parseColor("#999999"));
+        mIndicatorSelected = typedArray.getColor(R.styleable.Banner_indicator_selected,Color.parseColor("#FFFFFF"));
         typedArray.recycle();
     }
 
@@ -166,6 +167,19 @@ public class BannerView extends RelativeLayout implements ViewPager.OnPageChange
     public void onPageSelected(int position) {
         currentItem = position;
         setTitle(position%count);
+        //处理指示器
+        int num = position%count;
+        if (num == 0){
+            IndicatorView view = (IndicatorView) circleIndicator.getChildAt(0);
+            IndicatorView view2 = (IndicatorView) circleIndicator.getChildAt(count - 1);
+            view.setColor(mIndicatorSelected);
+            view2.setColor(mIndicatorUnselected);
+        }else {
+            IndicatorView view = (IndicatorView) circleIndicator.getChildAt(num);
+            IndicatorView view2 = (IndicatorView) circleIndicator.getChildAt(num - 1);
+            view.setColor(mIndicatorSelected);
+            view2.setColor(mIndicatorUnselected);
+        }
     }
 
     @Override
@@ -236,6 +250,7 @@ public class BannerView extends RelativeLayout implements ViewPager.OnPageChange
         this.count = count;
         createIndicatorView();
         // TODO 是否需要切换，BUG没有自动播放
+        viewPager.setCurrentItem(0);
         viewPager.getAdapter().notifyDataSetChanged();
     }
 
@@ -255,6 +270,11 @@ public class BannerView extends RelativeLayout implements ViewPager.OnPageChange
     private void addIndicatorView(int size){
         for (int i = 0; i < size; i++){
             IndicatorView view = new IndicatorView(mActivity);
+            if (i == 0){
+                view.setColor(mIndicatorSelected);
+            }else {
+                view.setColor(mIndicatorUnselected);
+            }
             circleIndicator.addView(view);
             LinearLayout.LayoutParams params = new
                     LinearLayout.LayoutParams(30,30);
